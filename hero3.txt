@@ -1,0 +1,7 @@
+Character Name: {'name': 'Hero3', 'class': 'Rogue', 'level': 1, 'strength': 60, 'magic': 75, 'health': 26, 'gold': 100}
+Class: Rogue
+Level: 1
+Strength: 60
+Magic: 75
+Health: 26
+Gold: 100

@@ -115,28 +115,21 @@ def load_character(filename):
                 key = parts[0].lower().replace(" ", "_")
                 value = parts[1].strip()
 
-                if key == "Character_Name":
-                    character["name"] = value
+                if key == "Character Name":
+                    character['name'] = value
                 elif key == "Class":
-                    character["class"] = value
-                elif key == "Level":
-                    character["level"] = int(value)
-                elif key == "Strength":
-                    character["strength"] = int(value)
-                elif key == "Magic":
-                    character["magic"] = int(value)
-                elif key == "Health":
-                    character["health"] = int(value)
-                elif key == "Gold":
-                    character["gold"] = int(value)
+                    character['class'] = value
+                elif key in ["Level", "Strength", "Magic", "Health", "Gold"]:
+                    # ValueError will crash the program if value is not an integer
+                    character[key.lower()] = int(value)
     
-    required_keys = ["name", "class", "level", "strength", "magic", "health", "gold"]
+    required_keys = ['name', 'class', 'level', 'strength', 'magic', 'health', 'gold']
     
-    for key in character:
-        if key not in required_keys:
-            return None 
-        else:
-            return character
+    if all(k in character for k in required_keys):
+        return character
+    else:
+        print(f"File {filename} is corrupted or missing data.")
+        return None
 
 def display_character(character):
     """
