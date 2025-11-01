@@ -97,3 +97,59 @@ Modifying protected files will result in automatic academic integrity violation
 Implementation (70%): Function correctness, file operations, error handling
 
 Interview (30%): Code explanation and live coding challenge
+
+# COMP 163 - Project 1: Character Creator
+
+This project is a Python-based utility designed to manage basic character data for a fantasy Role-Playing Game (RPG). It allows users to create new characters, calculate their starting stats, level them up, view a formatted character sheet, and persist/retrieve data from a text file.
+
+# Game Concept: Stat Formula Overview
+
+The game's concept is built around the mathematical identity of each class, defined by how their stats scale using multiplicative formulas based on the character's Level (L). This system ensures immediate and predictable class roles:
+
+Warrior: Designed as the primary tank and melee combatant, receiving the highest growth multipliers for Strength (15 * L * 5) and Health (40 * L * 2).
+
+Mage: Focused entirely on offense, they receive the highest multiplier for Magic (30 * L * 3), but minimal investment in Strength and Health.
+
+Rogue: Built as a balanced hybrid, their formulas provide medium, equal scaling for both Strength (12 * L * 5) and Magic (25 * L * 3), making them versatile but fragile due to lower Health growth.
+
+Cleric: Acts as a durable caster, pairing high Magic growth (30 * L * 3) with significant Health scaling (40 * L * 2).
+
+# Design Choices & Stat Formulas
+
+The core design principle was creating exaggerated, class-defining stat lines that scale predictably using simple multiplicative formulas.
+
+Stat Calculation (calculate_stats function)
+
+The formulas use the character's level to multiply class-specific base values, ensuring rapid growth in core stats.
+
+File I/O Design (save_character and load_character)
+    
+The file format is chosen for human readability and simple parsing, using a clear Key: Value format for each line.
+
+# Bonus Creative Features
+
+The main creative feature is the design of the stat system itself, offering four distinct playstyles through highly differentiated growth formulas. Additionally:
+
+Simple Leveling: The level_up function automatically recalculates all stats upon leveling, preventing manual math errors and keeping the stat system balanced.
+    
+Formatted Display: The display_character function provides a clean, easy-to-read character sheet for quick status checks.
+
+# AI Usage
+
+The following assistance was utilized from the AI model:
+
+Core Logic Implementation: 
+
+Assistance in correcting initial logic errors within the create_character function (specifically resolving a NameError and preventing accidental recursive calls).
+
+Code Structure: 
+
+Ensuring the final code maintained the requested specific function order (create_character first) while keeping all dependent functions callable.
+
+# How to Run
+
+Save the File: Ensure the code is saved as a Python file named character_creator.py.
+    
+Open Terminal: Navigate to the directory containing the file using your terminal or command prompt.
+    
+Execute: Run the file directly. The if name == "main": block contains built-in tests that will automatically execute and print output to the console, demonstrating the creation, leveling, saving, and loading functions.

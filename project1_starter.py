@@ -1,7 +1,7 @@
 """
 COMP 163 - Project 1: Character Creator & Saving/Loading
-Name: [Your Name Here]
-Date: [Date]
+Name: Kami Crews
+Date: 10/24/2025
 
 AI Usage: [Document any AI assistance used]
 Example: AI helped with file I/O error handling logic in save_character function
@@ -18,7 +18,22 @@ def create_character(name, character_class):
     """
     # TODO: Implement this function
     # Remember to use calculate_stats() function for stat calculation
-    pass
+    
+    level = 1
+
+    strength, magic, health = calculate_stats(character_class, level)
+
+    char_stats = {
+        "name": name, 
+        "class": character_class, 
+        "level": 1, 
+        "strength": strength, 
+        "magic": magic, 
+        "health": health, 
+        "gold": 100
+    }
+    
+    return char_stats
 
 def calculate_stats(character_class, level):
     """
@@ -33,7 +48,27 @@ def calculate_stats(character_class, level):
     """
     # TODO: Implement this function
     # Return a tuple: (strength, magic, health)
-    pass
+    
+    
+
+    if character_class == "Warrior":
+        start_strength = 15 * (level * 5) # 75 at level 1
+        start_magic = 8 * (level * 3) # 24 at level 1
+        start_health = 40 * (level * 2) # 80 at level 1
+    elif character_class == "Mage":
+        start_strength = 6 * (level * 5) # 30 at level 1
+        start_magic = 30 * (level * 3) # 90 at level 1
+        start_health = 33 * (level * 2) # 66 at level 1
+    elif character_class == "Rogue":
+        start_strength = 12 * (level * 5) # 60 at level 1
+        start_magic = 25 * (level * 3) # 75 at level 1
+        start_health = 13 * (level * 2) # 26 at level 1
+    else:
+        start_strength = 12 * (level * 5) # 60 at level 1
+        start_magic = 30 * (level * 3) # 90 at level 1
+        start_health = 40 * (level * 2) # 80 at level 1
+        
+    return (int(start_strength), int(start_magic), int(start_health))
 
 def save_character(character, filename):
     """
@@ -51,7 +86,16 @@ def save_character(character, filename):
     """
     # TODO: Implement this function
     # Remember to handle file errors gracefully
-    pass
+    with open(filename, 'w') as file:
+        file.write(f"Character Name: {character}\n")
+        file.write(f"Class: {character["class"]}\n")
+        file.write(f"Level: {character["level"]}\n")
+        file.write(f"Strength: {character["strength"]}\n")
+        file.write(f"Magic: {character["magic"]}\n")
+        file.write(f"Health: {character["health"]}\n")
+        file.write(f"Gold: {character["gold"]}\n")
+    
+    return True
 
 def load_character(filename):
     """
@@ -60,7 +104,39 @@ def load_character(filename):
     """
     # TODO: Implement this function
     # Remember to handle file not found errors
-    pass
+    
+    character = {}
+
+    with open(filename, 'r') as file:
+        for line in file:
+            parts = line.strip().split(": ")
+
+            if len(parts) == 2:
+                key = parts[0].lower().replace(" ", "_")
+                value = parts[1].strip()
+
+                if key == "Character_Name":
+                    character["name"] = value
+                elif key == "Class":
+                    character["class"] = value
+                elif key == "Level":
+                    character["level"] = int(value)
+                elif key == "Strength":
+                    character["strength"] = int(value)
+                elif key == "Magic":
+                    character["magic"] = int(value)
+                elif key == "Health":
+                    character["health"] = int(value)
+                elif key == "Gold":
+                    character["gold"] = int(value)
+    
+    required_keys = ["name", "class", "level", "strength", "magic", "health", "gold"]
+    
+    for key in character:
+        if key not in required_keys:
+            return None 
+        else:
+            return character
 
 def display_character(character):
     """
@@ -78,7 +154,15 @@ def display_character(character):
     Gold: 100
     """
     # TODO: Implement this function
-    pass
+    
+    print("=== CHARACTER SHEET ===")
+    print(f"Name: {character['name']}")
+    print(f"Class: {character['class']}")
+    print(f"Level: {character['level']}")
+    print(f"Strength: {character['strength']}")
+    print(f"Magic: {character['magic']}")
+    print(f"Health: {character['health']}")
+    print(f"Gold: {character['gold']}")
 
 def level_up(character):
     """
@@ -88,7 +172,13 @@ def level_up(character):
     """
     # TODO: Implement this function
     # Remember to recalculate stats for the new level
-    pass
+    
+    character['level'] += 1
+    strength, magic, health = calculate_stats(character['class'], character['level'])
+
+    character['strength'] = strength
+    character['magic'] = magic
+    character['health'] = health
 
 # Main program area (optional - for testing your functions)
 if __name__ == "__main__":
@@ -100,3 +190,10 @@ if __name__ == "__main__":
     # display_character(char)
     # save_character(char, "my_character.txt")
     # loaded = load_character("my_character.txt")
+
+    char = create_character("Kami", "Mage")
+    display_character(char)
+    save_character(char, "kami_character.txt")
+    loaded_char = load_character("kami_character.txt")
+    level_up(char)
+    display_character(char)
