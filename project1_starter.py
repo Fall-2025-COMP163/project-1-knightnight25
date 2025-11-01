@@ -7,6 +7,8 @@ AI Usage: [Document any AI assistance used]
 Example: AI helped with file I/O error handling logic in save_character function
 """
 
+import os
+
 def create_character(name, character_class):
     """
     Creates a new character dictionary with calculated stats
@@ -86,8 +88,17 @@ def save_character(character, filename):
     """
     # TODO: Implement this function
     # Remember to handle file errors gracefully
-    with open(filename, 'w') as file:
-        file.write(f"Character Name: {character}\n")
+    if not os.path.isdir(check_path):
+        check_path = os.path.dirname(check_path) if os.path.dirname(check_path) else '.'
+        
+    if not os.access(check_path, os.W_OK):
+        return False
+    
+    if directory:
+        os.makedirs(directory, exist_ok=True)
+
+    with open(filename, 'w', encoding='utf-8') as file:
+        file.write(f"Character Name: {character["name"]}\n")
         file.write(f"Class: {character["class"]}\n")
         file.write(f"Level: {character["level"]}\n")
         file.write(f"Strength: {character["strength"]}\n")
@@ -105,25 +116,28 @@ def load_character(filename):
     # TODO: Implement this function
     # Remember to handle file not found errors
     
+    if not os.path.exists(filename):
+        return False
+
     character = {}
 
-    with open(filename, 'r') as file:
+    with open(filename, 'r', encoding='utf-8') as file:
         for line in file:
-            parts = line.strip().split(": ")
-
+            parts = line.strip().split(': ', 1)
+            
             if len(parts) == 2:
-                key = parts[0].lower().replace(" ", "_")
+                key = parts[0].strip()
                 value = parts[1].strip()
 
                 if key == "Character Name":
-                    character['name'] = value
+                    character["name"] = value
                 elif key == "Class":
-                    character['class'] = value
+                    character["class"] = value
                 elif key in ["Level", "Strength", "Magic", "Health", "Gold"]:
                     # ValueError will crash the program if value is not an integer
                     character[key.lower()] = int(value)
     
-    required_keys = ['name', 'class', 'level', 'strength', 'magic', 'health', 'gold']
+    required_keys = ["name", "class", "level", "strength", "magic", "health", "gold"]
     
     if all(k in character for k in required_keys):
         return character

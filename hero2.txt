@@ -1,7 +1,0 @@
-Character Name: {'name': 'Hero2', 'class': 'Mage', 'level': 1, 'strength': 30, 'magic': 90, 'health': 66, 'gold': 100}
-Class: Mage
-Level: 1
-Strength: 30
-Magic: 90
-Health: 66
-Gold: 100
